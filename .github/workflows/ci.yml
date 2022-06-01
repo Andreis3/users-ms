@@ -18,17 +18,14 @@ jobs:
         with:
           go-version: 1.18
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run:  go mod download
 
       - name: Install Ginkgo
         run: go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo
 
-      - name: Create folder coverage
-        run: mkdir -p coverage
-
       - name: Test Unit Coverage
-        run: make unit-tests-coverage-report
+        run: make unit-tests-report
 
       - name: Test Unit Verbose
         run: make unit-tests-verbose
