@@ -21,11 +21,11 @@ jobs:
       - name: Install dependencies
         run:  go mod download
 
+      - name: Install Ginkgo
+        run: go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo
+
       - name: Create folder coverage
         run: mkdir -p coverage
-
-      - name: Build
-        run: go build -v ./...
 
       - name: Test Unit Coverage
         run: make unit-tests-coverage-report
