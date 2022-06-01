@@ -9,4 +9,4 @@ unit-tests-coverage-report:
 
 .PHONY: unit-tests,
 		unit-tests-verbose,
-		unit-tests-coverage-report,
+		unit-tests-coverage-report
