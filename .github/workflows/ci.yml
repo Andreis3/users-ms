@@ -19,7 +19,7 @@ jobs:
           go-version: 1.18
 
       - name: Install dependencies
-        run:  go get -v ./...
+        run:  go mod download
 
       - name: Create folder coverage
         run: mkdir -p coverage
@@ -31,4 +31,4 @@ jobs:
         run: make unit-tests-coverage-report
 
       - name: Test Unit Verbose
-        run: make test-unit-verbose
+        run: make unit-tests-verbose
