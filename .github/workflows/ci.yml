@@ -22,7 +22,7 @@ jobs:
         run: go build -v ./...
 
       - name: Test Unit Coverage
-        run: make test-unit-coverage
+        run: make unit-tests-coverage-report
 
       - name: Test Unit Verbose
         run: make test-unit-verbose
