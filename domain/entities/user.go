@@ -1,3 +1,6 @@
+//go:build unit
+// +build unit
+
 package entities
 
 import (
@@ -18,7 +21,7 @@ type User struct {
 	ModifiedAt time.Time
 }
 
-func NewUser(id int, username, password, firstName, lastName, email, cpf string) (*User, error) {
+func NewUser(id int, username, password, firstName, lastName, email, cpf string) *User {
 	user := &User{
 		ID:         id,
 		Username:   username,
@@ -31,11 +34,7 @@ func NewUser(id int, username, password, firstName, lastName, email, cpf string)
 		ModifiedAt: time.Now(),
 	}
 
-	if err := user.Validate(); err != nil {
-		return nil, err
-	}
-
-	return user, nil
+	return user
 }
 
 func (u *User) Validate() error {
@@ -58,9 +57,7 @@ func (u *User) Validate() error {
 	}
 
 	if u.CPF == "" {
-		return fmt.Errorf("cpf is required")
-	} else if len(u.CPF) != 11 {
-		return fmt.Errorf("cpf must be 11 characters")
+		return fmt.Errorf("CPF is required")
 	} else if regexCPF(u.CPF) == false {
 		return fmt.Errorf("cpf is invalid")
 	}
@@ -131,9 +128,6 @@ func containsDot(s string) bool {
 }
 
 func regexCPF(s string) bool {
-	match, err := regexp.Match(`([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})`, []byte(s))
-	if err != nil {
-		return false
-	}
+	match, _ := regexp.Match(`([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})`, []byte(s))
 	return match
 }
