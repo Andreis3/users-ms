@@ -2,7 +2,7 @@ name: users-ms-ci
 
 on:
   push:
-    branches: [ master, develop, preprod, feat/*, fix/*, hotfix/*, chore/* ]
+    branches: [ feat/*, fix/*, hotfix/*, chore/* ]
   pull_request:
     branches: [ master, develop, preprod ]
 
@@ -21,5 +21,8 @@ jobs:
       - name: Build
         run: go build -v ./...
 
-      - name: Test
-        run: go test -v ./...
+      - name: Test Unit Coverage
+        run: make test-unit-coverage
+
+      - name: Test Unit Verbose
+        run: make test-unit-verbose
