@@ -18,6 +18,12 @@ jobs:
         with:
           go-version: 1.18
 
+      - name: Install dependencies
+        run:  go get -v ./...
+
+      - name: Create folder coverage
+        run: mkdir -p coverage
+
       - name: Build
         run: go build -v ./...
 
