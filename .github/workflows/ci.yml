@@ -2,7 +2,7 @@ name: users-ms-ci
 
 on:
   push:
-    branches: [ master, develop, preprod, feat/*, fix/*, hotfix/*, chore/* ]
+    branches: [ feat/*, fix/*, hotfix/*, chore/* ]
   pull_request:
     branches: [ master, develop, preprod ]
 
@@ -18,8 +18,14 @@ jobs:
         with:
           go-version: 1.18
 
-      - name: Build
-        run: go build -v ./...
+      - name: Install Dependencies
+        run:  go mod download
 
-      - name: Test
-        run: go test -v ./...
+      - name: Install Ginkgo
+        run: go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo
+
+      - name: Test Unit Coverage
+        run: make unit-tests-report
+
+      - name: Test Unit Verbose
+        run: make unit-tests-verbose
