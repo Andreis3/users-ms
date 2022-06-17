@@ -31,7 +31,7 @@ func NewGinHttp() GinHttp {
 	}
 }
 
-func (h GinHttp) Filter(filter func(c *gin.Context) bool) {
+func (h GinHttp) Filter(filter func(c any) bool) {
 	h.app.Use(func(c *gin.Context) {
 		if filter(c) {
 			c.Next()
@@ -44,9 +44,10 @@ func (h GinHttp) Filter(filter func(c *gin.Context) bool) {
 	})
 }
 
-func (h GinHttp) On(method string, url string, handler func(c *gin.Context)) {
-	fmt.Println("Registering handler for " + method + " " + url)
-	h.app.Handle(method, url, handler)
+func (h GinHttp) On(method string, url string, fn func(c any)) {
+	h.app.Handle(method, url, func(c *gin.Context) {
+		fn(c)
+	})
 }
 
 func (h GinHttp) Listen(port string) {
