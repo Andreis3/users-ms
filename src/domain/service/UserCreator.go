@@ -18,6 +18,5 @@ func NewUserCreator(repositoryFactory factory.RepositoryFactory) *UserCreator {
 
 func (u *UserCreator) Create(user *entity.User) (*entity.User, error) {
 	userRepository, _ := u.userRepository.Save(user)
-
 	return userRepository, nil
 }

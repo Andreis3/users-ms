@@ -15,17 +15,6 @@ type PlaceUserInput struct {
 	CPF       string `json:"cpf" binding:"required"`
 }
 
-func NewPlaceUserInput(username, password, firstName, lastName, email, cpf string) *PlaceUserInput {
-	return &PlaceUserInput{
-		Username:  username,
-		Password:  password,
-		FirstName: firstName,
-		LastName:  lastName,
-		Email:     email,
-		CPF:       cpf,
-	}
-}
-
 func (p *PlaceUserInput) ParserUserEntity() (*entity.User, error) {
 	id := uuid.New().String()
 	user := entity.NewUser(id, p.Username, p.Password, p.FirstName, p.LastName, p.Email, p.CPF)
