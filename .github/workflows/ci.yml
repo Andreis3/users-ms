@@ -4,7 +4,7 @@ on:
   push:
     branches: [ feat/*, fix/*, hotfix/*, chore/* ]
   pull_request:
-    branches: [ master, develop, preprod ]
+    branches: [ develop, preprod, master ]
 
 jobs:
 
