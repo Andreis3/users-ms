@@ -1,7 +1,7 @@
 //go:build unit
 // +build unit
 
-package entities_tests
+package entity
 
 import (
 	"testing"
@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/andreis3/users-ms/domain/entities"
+	"github.com/andreis3/users-ms/src/domain/entity"
 )
 
 func TestUserEntity(t *testing.T) {
@@ -18,10 +18,10 @@ func TestUserEntity(t *testing.T) {
 }
 
 var _ = Describe("DOMAIN :: ENTITY :: USER", func() {
-	var user *entities.User
+	var user *entity.User
 	var err error
 	BeforeEach(func() {
-		user = entities.NewUser(1,
+		user = entity.NewUser(1,
 			"test_username",
 			"test_passworD1",
 			"test_first_name",

@@ -1,4 +1,4 @@
-package entities
+package entity
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 )
 
 type User struct {
-	ID         int
+	ID         string
 	Username   string
 	Password   string
 	FirstName  string
@@ -18,7 +18,7 @@ type User struct {
 	ModifiedAt time.Time
 }
 
-func NewUser(id int, username, password, firstName, lastName, email, cpf string) *User {
+func NewUser(id, username, password, firstName, lastName, email, cpf string) *User {
 	user := &User{
 		ID:         id,
 		Username:   username,
