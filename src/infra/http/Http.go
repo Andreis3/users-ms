@@ -1,11 +1,7 @@
 package http
 
-import (
-	"github.com/gin-gonic/gin"
-)
-
 type Http interface {
-	On(method string, url string, handler func(c *gin.Context))
-	Filter(filter func(c *gin.Context) bool)
+	On(method string, url string, fn func(c any))
+	Filter(filter func(c any) bool)
 	Listen(port string)
 }
