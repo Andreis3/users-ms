@@ -16,7 +16,7 @@ type RouterConfig struct {
 	repositoryFactory factory.RepositoryFactory
 }
 
-func NewRouterConfig(http GinHttp, repositoryFactory factory.RepositoryFactory) *RouterConfig {
+func NewRouterConfig(http Http, repositoryFactory factory.RepositoryFactory) *RouterConfig {
 	return &RouterConfig{
 		http:              http,
 		repositoryFactory: repositoryFactory,
@@ -27,16 +27,18 @@ func (routerConfig *RouterConfig) Build() {
 	httpConfig := routerConfig.http
 	repositoryFactory := routerConfig.repositoryFactory
 
-	httpConfig.Filter(func(c *gin.Context) bool {
-		c.Next()
+	httpConfig.Filter(func(c any) bool {
+		ctx := c.(*gin.Context)
+		ctx.Next()
 		fmt.Println(time.Now().Format("2006-01-02 15:04:05") + " - " +
-			c.Request.Method + " " +
-			c.Request.URL.Path + " - " +
-			fmt.Sprintf("%v", c.Writer.Status()))
+			ctx.Request.Method + " " +
+			ctx.Request.URL.Path + " - " +
+			fmt.Sprintf("%v", ctx.Writer.Status()))
 		return true
 	})
 
-	httpConfig.On("POST", "/user", func(ctx *gin.Context) {
+	httpConfig.On("POST", "/user", func(c any) {
+		ctx := c.(*gin.Context)
 		var userInput place_user.PlaceUserInput
 		if err := ctx.ShouldBindJSON(&userInput); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
