@@ -21,7 +21,7 @@ var _ = Describe("DOMAIN :: ENTITY :: USER", func() {
 	var user *entity.User
 	var err error
 	BeforeEach(func() {
-		user = entity.NewUser(1,
+		user = entity.NewUser("any_id",
 			"test_username",
 			"test_passworD1",
 			"test_first_name",
