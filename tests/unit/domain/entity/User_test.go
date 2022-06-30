@@ -14,7 +14,7 @@ import (
 
 func TestUserEntity(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "User Entity Suite")
+	RunSpecs(t, "Domain :: Entity :: User Suite")
 }
 
 var _ = Describe("DOMAIN :: ENTITY :: USER", func() {
