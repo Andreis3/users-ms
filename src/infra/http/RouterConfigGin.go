@@ -9,23 +9,27 @@ import (
 
 	place_user "github.com/andreis3/users-ms/src/application/place-user"
 	"github.com/andreis3/users-ms/src/domain/factory"
+	"github.com/andreis3/users-ms/src/infra/middleware/auth"
 )
 
 type RouterConfig struct {
 	http              Http
 	repositoryFactory factory.RepositoryFactory
+	middleware        auth.MiddlewareInterface
 }
 
-func NewRouterConfig(http Http, repositoryFactory factory.RepositoryFactory) *RouterConfig {
+func NewRouterConfig(http Http, repositoryFactory factory.RepositoryFactory, middleware auth.MiddlewareInterface) *RouterConfig {
 	return &RouterConfig{
 		http:              http,
 		repositoryFactory: repositoryFactory,
+		middleware:        middleware,
 	}
 }
 
 func (routerConfig *RouterConfig) Build() {
 	httpConfig := routerConfig.http
 	repositoryFactory := routerConfig.repositoryFactory
+	middleware := routerConfig.middleware
 
 	httpConfig.Filter(func(c any) bool {
 		ctx := c.(*gin.Context)
@@ -37,8 +41,12 @@ func (routerConfig *RouterConfig) Build() {
 		return true
 	})
 
-	httpConfig.On("POST", "/user", func(c any) {
+	httpConfig.On(http.MethodPost, "/user", func(c any) {
 		ctx := c.(*gin.Context)
+		middleware.Middleware()(ctx)
+		if ctx.Writer.Status() == http.StatusUnauthorized {
+			return
+		}
 		var userInput place_user.PlaceUserInput
 		if err := ctx.ShouldBindJSON(&userInput); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
