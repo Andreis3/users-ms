@@ -22,6 +22,10 @@ func GetInstance() *UserRepositoryMemory {
 }
 
 func (u UserRepositoryMemory) Save(user *entity.User) (*entity.User, error) {
+	err := user.Validate()
+	if err != nil {
+		return nil, err
+	}
 	memoryDatabase = append(memoryDatabase, user)
 	return user, nil
 }

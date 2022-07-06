@@ -1,31 +1,38 @@
 package http
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	place_user "github.com/andreis3/users-ms/src/application/place-user"
 	"github.com/andreis3/users-ms/src/domain/factory"
+	"github.com/andreis3/users-ms/src/infra/middleware/auth"
 )
 
 type RouterConfig struct {
 	http              Http
 	repositoryFactory factory.RepositoryFactory
+	middleware        auth.MiddlewareInterface
 }
 
-func NewRouterConfig(http Http, repositoryFactory factory.RepositoryFactory) *RouterConfig {
+func NewRouterConfig(http Http, repositoryFactory factory.RepositoryFactory, middleware auth.MiddlewareInterface) *RouterConfig {
 	return &RouterConfig{
 		http:              http,
 		repositoryFactory: repositoryFactory,
+		middleware:        middleware,
 	}
 }
 
 func (routerConfig *RouterConfig) Build() {
 	httpConfig := routerConfig.http
 	repositoryFactory := routerConfig.repositoryFactory
+	middleware := routerConfig.middleware
 
 	httpConfig.Filter(func(c any) bool {
 		ctx := c.(*gin.Context)
@@ -37,11 +44,24 @@ func (routerConfig *RouterConfig) Build() {
 		return true
 	})
 
-	httpConfig.On("POST", "/user", func(c any) {
+	httpConfig.On(http.MethodPost, "/user", func(c any) {
 		ctx := c.(*gin.Context)
+		middleware.Middleware()(ctx)
+		if ctx.Writer.Status() == http.StatusUnauthorized {
+			return
+		}
 		var userInput place_user.PlaceUserInput
 		if err := ctx.ShouldBindJSON(&userInput); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			mapError := map[string]any{}
+			var jsError *json.UnmarshalTypeError
+			if errors.As(err, &jsError) {
+				mapError[jsError.Field] = jsError.Type.String()
+			} else {
+				for _, err := range err.(validator.ValidationErrors) {
+					mapError[err.Field()] = err.Tag()
+				}
+			}
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": mapError})
 			return
 		}
 		userRepository := place_user.NewPlaceUser(repositoryFactory)
