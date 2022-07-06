@@ -1,11 +1,14 @@
 package http
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	place_user "github.com/andreis3/users-ms/src/application/place-user"
 	"github.com/andreis3/users-ms/src/domain/factory"
@@ -49,7 +52,16 @@ func (routerConfig *RouterConfig) Build() {
 		}
 		var userInput place_user.PlaceUserInput
 		if err := ctx.ShouldBindJSON(&userInput); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			mapError := map[string]any{}
+			var jsError *json.UnmarshalTypeError
+			if errors.As(err, &jsError) {
+				mapError[jsError.Field] = jsError.Type.String()
+			} else {
+				for _, err := range err.(validator.ValidationErrors) {
+					mapError[err.Field()] = err.Tag()
+				}
+			}
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": mapError})
 			return
 		}
 		userRepository := place_user.NewPlaceUser(repositoryFactory)

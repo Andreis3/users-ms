@@ -7,12 +7,12 @@ import (
 )
 
 type PlaceUserInput struct {
-	Username  string `json:"user_name" binding:"required"`
-	Password  string `json:"password" binding:"required"`
-	FirstName string `json:"first_name" binding:"required"`
-	LastName  string `json:"last_name" binding:"required"`
-	Email     string `json:"email" binding:"required"`
-	CPF       string `json:"cpf" binding:"required"`
+	Username  string `form:"user_name" json:"user_name" binding:"required" type:"string"`
+	Password  string `form:"password" json:"password" binding:"required"`
+	FirstName string `form:"first_name" json:"first_name" binding:"required"`
+	LastName  string `form:"last_name" json:"last_name" binding:"required"`
+	Email     string `form:"email" json:"email" binding:"required"`
+	CPF       string `form:"cpf" json:"cpf" binding:"required"`
 }
 
 func (p *PlaceUserInput) ParserUserEntity() (*entity.User, error) {
