@@ -13,8 +13,11 @@ unit-tests-report:
 unit-tests-cover:
 	go test ./tests/... -coverpkg ./... --tags=unit
 
+tag:
+	./scripts/bump_version.sh
 
 .PHONY: unit-tests,
 		unit-tests-verbose,
 		unit-tests-report,
-		unit-tests-cover
+		unit-tests-cover,
+		tag
