@@ -1,21 +1,21 @@
-package place_user
+package operation
 
 import (
 	"github.com/andreis3/users-ms/src/domain/factory"
 	"github.com/andreis3/users-ms/src/domain/service"
 )
 
-type PlaceUser struct {
+type CreateUserOperation struct {
 	repositoryFactory factory.RepositoryFactory
 }
 
-func NewPlaceUser(repositoryFactory factory.RepositoryFactory) *PlaceUser {
-	return &PlaceUser{
+func NewUserOperation(repositoryFactory factory.RepositoryFactory) *CreateUserOperation {
+	return &CreateUserOperation{
 		repositoryFactory: repositoryFactory,
 	}
 }
 
-func (p *PlaceUser) Execute(userInput *PlaceUserInput) (*PlaceUserOutPut, error) {
+func (p *CreateUserOperation) Execute(userInput *UserInputDTO) (*UserOutPutDTO, error) {
 	userRepository := service.NewUserCreator(p.repositoryFactory)
 	userEntity, err := userInput.ParserUserEntity()
 	if err != nil {

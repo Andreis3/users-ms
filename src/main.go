@@ -1,17 +1,13 @@
 package main
 
 import (
-	memoryRepository "github.com/andreis3/users-ms/src/infra/factory"
-	httpConfig "github.com/andreis3/users-ms/src/infra/http"
-	"github.com/andreis3/users-ms/src/infra/middleware/auth"
+	_interface "github.com/andreis3/users-ms/src/interface"
+	userInterface "github.com/andreis3/users-ms/src/interface/http/presentation/user"
 )
 
-var memoryRepositoryFactory memoryRepository.MemoryRepositoryFactory
+var server userInterface.UserRouter
 
 func main() {
-	http := httpConfig.NewGinHttp()
-	middleware := auth.NewAuthMiddleware("12345")
-	routes := httpConfig.NewRouterConfig(http, &memoryRepositoryFactory, middleware)
-	routes.Build()
-	http.Listen("8080")
+	server := _interface.NewServer(server)
+	server.Start()
 }

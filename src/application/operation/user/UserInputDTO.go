@@ -1,4 +1,4 @@
-package place_user
+package operation
 
 import (
 	"github.com/google/uuid"
@@ -6,7 +6,7 @@ import (
 	"github.com/andreis3/users-ms/src/domain/entity"
 )
 
-type PlaceUserInput struct {
+type UserInputDTO struct {
 	Username  string `form:"user_name" json:"user_name" binding:"required" type:"string"`
 	Password  string `form:"password" json:"password" binding:"required"`
 	FirstName string `form:"first_name" json:"first_name" binding:"required"`
@@ -15,7 +15,7 @@ type PlaceUserInput struct {
 	CPF       string `form:"cpf" json:"cpf" binding:"required"`
 }
 
-func (p *PlaceUserInput) ParserUserEntity() (*entity.User, error) {
+func (p *UserInputDTO) ParserUserEntity() (*entity.User, error) {
 	id := uuid.New().String()
 	user := entity.NewUser(id, p.Username, p.Password, p.FirstName, p.LastName, p.Email, p.CPF)
 	err := user.Validate()
