@@ -8,7 +8,7 @@ import (
 	"github.com/andreis3/users-ms/src/infra/factory"
 )
 
-var userController *UserController
+var userController IUserController
 var memoryRepositoryFactory factory.MemoryRepositoryFactory
 
 func init() {
@@ -29,7 +29,25 @@ func (u *UserRouter) UserRouter() []map[string]interface{} {
 			"path":   "/users",
 			"handle": func(ctx *gin.Context) {
 				ctx.JSON(http.StatusOK, gin.H{
-					"message": "Hello World",
+					"message": "Implement method GET",
+				})
+			},
+		},
+		{
+			"method": http.MethodPut,
+			"path":   "/users/:id",
+			"handle": func(ctx *gin.Context) {
+				ctx.JSON(http.StatusOK, gin.H{
+					"message": "Implement method PUT",
+				})
+			},
+		},
+		{
+			"method": http.MethodDelete,
+			"path":   "/users/:id",
+			"handle": func(ctx *gin.Context) {
+				ctx.JSON(http.StatusNoContent, gin.H{
+					"message": "Implement method DELETE",
 				})
 			},
 		},

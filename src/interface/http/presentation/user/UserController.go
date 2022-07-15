@@ -29,7 +29,5 @@ func (u *UserController) Create(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusCreated, gin.H{
-		"user": userOutput,
-	})
+	ctx.JSON(http.StatusCreated, userOutput)
 }

@@ -2,26 +2,21 @@ package _interface
 
 import (
 	"github.com/gin-gonic/gin"
-
-	"github.com/andreis3/users-ms/src/interface/http/presentation"
-	userInterface "github.com/andreis3/users-ms/src/interface/http/presentation/user"
 )
 
 type Server struct {
-	Server     *gin.Engine
-	router     presentation.IRegisterRouter
-	userRouter userInterface.IUserRouter
+	Server *gin.Engine
+	router IRouter
 }
 
-func NewServer(userRouter userInterface.IUserRouter) *Server {
+func NewServer(server *gin.Engine, router IRouter) *Server {
 	return &Server{
-		Server:     gin.Default(),
-		userRouter: userRouter,
+		Server: server,
+		router: router,
 	}
 }
 
 func (s Server) Start() {
-	s.router = presentation.NewRouterRegister(s.Server)
-	s.router.Register(s.userRouter.UserRouter())
+	s.router.ApiRouter()
 	s.Server.Run(":8080").Error()
 }

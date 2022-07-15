@@ -4,19 +4,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RouterRegister struct {
-	Server *gin.Engine
+type RouterRegister struct{}
+
+func NewRouterRegister() *RouterRegister {
+	return &RouterRegister{}
 }
 
-func NewRouterRegister(server *gin.Engine) *RouterRegister {
-	return &RouterRegister{
-		Server: server,
+func (r RouterRegister) Register(app *gin.RouterGroup, routers []map[string]interface{}) gin.HandlerFunc {
+	for _, router := range routers {
+		app.Handle(router["method"].(string), router["path"].(string), router["handle"].(func(ctx *gin.Context)))
 	}
-}
-
-func (r RouterRegister) Register(router []map[string]interface{}) []map[string]interface{} {
-	for _, route := range router {
-		r.Server.Handle(route["method"].(string), route["path"].(string), route["handle"].(func(ctx *gin.Context)))
-	}
-	return router
+	return nil
 }

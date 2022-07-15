@@ -1,5 +1,7 @@
 package presentation
 
+import "github.com/gin-gonic/gin"
+
 type IRegisterRouter interface {
-	Register(router []map[string]interface{}) []map[string]interface{}
+	Register(app *gin.RouterGroup, router []map[string]interface{}) gin.HandlerFunc
 }
