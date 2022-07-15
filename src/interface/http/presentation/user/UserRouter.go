@@ -15,28 +15,23 @@ func init() {
 	userController = NewUserController(memoryRepositoryFactory)
 }
 
-type UserRouter struct {
-	Method string
-	Path   string
-	Handle func(ctx *gin.Context)
-}
+type UserRouter struct{}
 
-func (u *UserRouter) Register() []UserRouter {
-	userRouters := []UserRouter{
+func (u *UserRouter) UserRouter() []map[string]interface{} {
+	return []map[string]interface{}{
 		{
-			Method: http.MethodPost,
-			Path:   "/users",
-			Handle: userController.Create,
+			"method": http.MethodPost,
+			"path":   "/users",
+			"handle": userController.Create,
 		},
 		{
-			Method: http.MethodGet,
-			Path:   "/users",
-			Handle: func(ctx *gin.Context) {
+			"method": http.MethodGet,
+			"path":   "/users",
+			"handle": func(ctx *gin.Context) {
 				ctx.JSON(http.StatusOK, gin.H{
 					"message": "Hello World",
 				})
 			},
 		},
 	}
-	return userRouters
 }

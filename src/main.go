@@ -5,9 +5,9 @@ import (
 	userInterface "github.com/andreis3/users-ms/src/interface/http/presentation/user"
 )
 
-var server userInterface.UserRouter
+var userRouter *userInterface.UserRouter
 
 func main() {
-	server := _interface.NewServer(server)
+	server := _interface.NewServer(userRouter)
 	server.Start()
 }
