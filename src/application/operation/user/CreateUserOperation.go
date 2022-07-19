@@ -6,10 +6,10 @@ import (
 )
 
 type CreateUserOperation struct {
-	repositoryFactory factory.RepositoryFactory
+	repositoryFactory factory.IRepositoryFactory
 }
 
-func NewUserOperation(repositoryFactory factory.RepositoryFactory) *CreateUserOperation {
+func NewUserOperation(repositoryFactory factory.IRepositoryFactory) *CreateUserOperation {
 	return &CreateUserOperation{
 		repositoryFactory: repositoryFactory,
 	}

@@ -7,10 +7,10 @@ import (
 )
 
 type UserCreator struct {
-	userRepository repository.UserRepository
+	userRepository repository.IUserRepository
 }
 
-func NewUserCreator(repositoryFactory factory.RepositoryFactory) *UserCreator {
+func NewUserCreator(repositoryFactory factory.IRepositoryFactory) *UserCreator {
 	return &UserCreator{
 		userRepository: repositoryFactory.CreateUserRepository(),
 	}

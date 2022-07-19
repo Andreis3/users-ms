@@ -9,10 +9,10 @@ import (
 )
 
 var userController IUserController
-var memoryRepositoryFactory factory.MemoryRepositoryFactory
+var databaseRepositoryFactory factory.DatabaseRepositoryFactory
 
 func init() {
-	userController = NewUserController(memoryRepositoryFactory)
+	userController = NewUserController(&databaseRepositoryFactory)
 }
 
 type UserRouter struct{}
