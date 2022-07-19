@@ -23,8 +23,8 @@ func TestUserCreator(t *testing.T) {
 
 var _ = Describe("DOMAIN :: SERVICE :: USERCREATOR", func() {
 	var userCreator *service.UserCreator
-	mockRepositoryFactory := mocks.NewMockRepositoryFactory(crtl)
-	mockUserRepository := mocks.NewMockUserRepository(crtl)
+	mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+	mockUserRepository := mocks.NewMockIUserRepository(crtl)
 	user := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
