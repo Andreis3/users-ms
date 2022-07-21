@@ -1,8 +1,10 @@
 package database
 
 import (
-	"database/sql"
 	"sync"
+
+	"github.com/upper/db/v4"
+	"github.com/upper/db/v4/adapter/cockroachdb"
 )
 
 var (
@@ -11,44 +13,37 @@ var (
 )
 
 type CockroachDatabase struct {
-	db *sql.DB
+	session *db.Session
 }
 
 func GetInstance() IDatabase {
 	once.Do(func() {
-		conn, err := sql.Open("postgres", "postgres://postgres:postgres@localhost:26257/postgres")
+		settings := cockroachdb.ConnectionURL{
+			Host:     "localhost",
+			Database: "users_db",
+			User:     "root",
+			Password: "",
+			Options: map[string]string{
+				"sslmode": "disable",
+			},
+		}
+		session, err := cockroachdb.Open(settings)
+		if session == nil {
+			session, err = cockroachdb.Open(settings)
+		}
+
 		if err != nil {
 			panic(err)
 		}
+		session.SetConnMaxIdleTime(10)
+		session.SetMaxOpenConns(10)
 		instance = &CockroachDatabase{
-			db: conn,
+			session: &session,
 		}
 	})
 	return instance
 }
 
-func (c *CockroachDatabase) One(data any) any {
-	query := "SELECT * FROM users"
-	c.db.QueryRow(query).Scan(data)
-	return data
-}
-
-func (c *CockroachDatabase) Many(data any) any {
-	query := "SELECT * FROM users"
-	rows, err := c.db.Query(query)
-	if err != nil {
-		panic(err)
-	}
-	defer rows.Close()
-	for rows.Next() {
-		rows.Scan(data)
-	}
-	return data
-}
-
-func (c *CockroachDatabase) None(query string) {
-	_, err := c.db.Query(query)
-	if err != nil {
-		panic(err)
-	}
+func (c *CockroachDatabase) Session() *db.Session {
+	return c.session
 }

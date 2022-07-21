@@ -44,6 +44,6 @@ services:
       - COCKROACH_HOST=crdb-0:26257
       - COCKROACH_INSECURE=true
       - COCKROACH_INIT=true
-      - DATABASE_NAME=test
+      - DATABASE_NAME=company_db
     depends_on:
       - lb

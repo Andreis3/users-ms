@@ -1,7 +1,7 @@
 package database
 
+import "github.com/upper/db/v4"
+
 type IDatabase interface {
-	One(data any) any
-	Many(data any) any
-	None(query string)
+	Session() *db.Session
 }

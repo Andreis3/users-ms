@@ -18,5 +18,5 @@ func NewServer(server *gin.Engine, router IRouter) *Server {
 
 func (s Server) Start() {
 	s.router.ApiRouter()
-	s.Server.Run(":8080").Error()
+	s.Server.Run(":3000").Error()
 }
