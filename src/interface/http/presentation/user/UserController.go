@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	operation "github.com/andreis3/users-ms/src/application/operation/user"
+	"github.com/andreis3/users-ms/src/application/operation/user/dto"
 	"github.com/andreis3/users-ms/src/domain/factory"
 )
 
@@ -20,7 +21,7 @@ func NewUserController(repositoryFactory factory.IRepositoryFactory) *UserContro
 }
 
 func (u *UserController) Create(ctx *gin.Context) {
-	var userInput operation.UserInputDTO
+	var userInput dto.UserInputDTO
 	ctx.ShouldBindJSON(&userInput)
 	userOutput, err := operation.NewUserOperation(u.repositoryFactory).Execute(&userInput)
 	if err != nil {

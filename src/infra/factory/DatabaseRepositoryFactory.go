@@ -2,7 +2,7 @@ package factory
 
 import (
 	"github.com/andreis3/users-ms/src/domain/repository"
-	cockroach "github.com/andreis3/users-ms/src/infra/database"
+	cockroach "github.com/andreis3/users-ms/src/infra/database/cockroachdb"
 	"github.com/andreis3/users-ms/src/infra/repository/database"
 )
 

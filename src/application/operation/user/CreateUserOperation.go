@@ -1,6 +1,7 @@
 package operation
 
 import (
+	"github.com/andreis3/users-ms/src/application/operation/user/dto"
 	"github.com/andreis3/users-ms/src/domain/factory"
 	"github.com/andreis3/users-ms/src/domain/service"
 )
@@ -15,7 +16,7 @@ func NewUserOperation(repositoryFactory factory.IRepositoryFactory) *CreateUserO
 	}
 }
 
-func (p *CreateUserOperation) Execute(userInput *UserInputDTO) (*UserOutPutDTO, error) {
+func (p *CreateUserOperation) Execute(userInput *dto.UserInputDTO) (*dto.UserOutPutDTO, error) {
 	userRepository := service.NewUserCreator(p.repositoryFactory)
 	userEntity, err := userInput.ParserUserEntity()
 	if err != nil {
@@ -25,6 +26,6 @@ func (p *CreateUserOperation) Execute(userInput *UserInputDTO) (*UserOutPutDTO, 
 	if err != nil {
 		return nil, err
 	}
-	userOutput := ParserUserEntityOutput(user)
+	userOutput := dto.ParserUserEntityOutput(user)
 	return userOutput, nil
 }

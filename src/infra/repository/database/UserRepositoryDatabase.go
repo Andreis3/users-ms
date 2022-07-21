@@ -6,7 +6,7 @@ import (
 
 	"github.com/andreis3/users-ms/src/domain/entity"
 	"github.com/andreis3/users-ms/src/infra/database"
-	"github.com/andreis3/users-ms/src/infra/database/model"
+	"github.com/andreis3/users-ms/src/infra/database/cockroachdb/model"
 )
 
 type UserRepositoryDatabase struct {

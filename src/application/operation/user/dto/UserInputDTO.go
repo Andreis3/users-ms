@@ -1,4 +1,4 @@
-package operation
+package dto
 
 import (
 	"github.com/google/uuid"

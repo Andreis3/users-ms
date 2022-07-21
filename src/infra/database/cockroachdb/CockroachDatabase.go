@@ -1,10 +1,12 @@
-package database
+package cockroachdb
 
 import (
 	"sync"
 
 	"github.com/upper/db/v4"
 	"github.com/upper/db/v4/adapter/cockroachdb"
+
+	"github.com/andreis3/users-ms/src/infra/database"
 )
 
 var (
@@ -16,7 +18,7 @@ type CockroachDatabase struct {
 	session *db.Session
 }
 
-func GetInstance() IDatabase {
+func GetInstance() database.IDatabase {
 	once.Do(func() {
 		settings := cockroachdb.ConnectionURL{
 			Host:     "localhost",
