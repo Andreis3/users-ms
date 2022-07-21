@@ -17,7 +17,7 @@ Simple 3 node CockroachDB cluster with NGINX acting as load balancer
 ### Execute SQL
 Use the following to execute arbitrary SQL on the CockroachDB cluster.  The following creates a database called `test`.
 ```bash
-docker compose exec crdb-0 /cockroach/cockroach sql --insecure --execute="CREATE DATABASE test;"
+docker-compose exec crdb-0 /cockroach/cockroach sql --insecure --execute="CREATE DATABASE test;"
 ```
 
 ### Open Interactive Shells

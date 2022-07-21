@@ -1,8 +1,9 @@
 package database
 
 import (
-	"fmt"
 	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/andreis3/users-ms/src/domain/entity"
 	"github.com/andreis3/users-ms/src/infra/database"
@@ -23,81 +24,100 @@ func (u UserRepositoryDatabase) Save(user *entity.User) (*entity.User, error) {
 	sess := *u.db.Session()
 	collection := sess.Collection("users")
 	userResult := &model.UserModel{
-		ID:         user.ID,
+		ID:         uuid.New().String(),
 		Username:   user.Username,
 		FirstName:  user.FirstName,
+		Password:   user.Password,
 		LastName:   user.LastName,
 		Email:      user.Email,
 		CPF:        user.CPF,
-		CreatedAt:  user.CreatedAt.String(),
-		ModifiedAt: user.ModifiedAt.String(),
+		CreatedAt:  user.CreatedAt,
+		ModifiedAt: user.ModifiedAt,
 	}
-	_, err := collection.Insert(userResult)
+	res, err := collection.Insert(userResult)
 	if err != nil {
 		return nil, err
 	}
+	user.ID = res.ID().(string)
 	return user, nil
 }
 
-func (u UserRepositoryDatabase) Update(user *entity.User) (*entity.User, error) {
-	userResult := &entity.User{
-		ID:         user.ID,
-		Username:   "test",
-		Password:   "123456Ada$",
-		FirstName:  "test",
-		LastName:   "test",
-		Email:      "test@mail.com",
-		CPF:        "12345678912",
-		CreatedAt:  time.Time{},
-		ModifiedAt: time.Time{},
+func (u UserRepositoryDatabase) Update(id string, user *entity.User) (*entity.User, error) {
+	sess := *u.db.Session()
+	collection := sess.Collection("users")
+	userModel := &model.UserModel{
+		ID:         id,
+		Username:   user.Username,
+		FirstName:  user.FirstName,
+		Password:   user.Password,
+		LastName:   user.LastName,
+		Email:      user.Email,
+		CPF:        user.CPF,
+		ModifiedAt: time.Now(),
 	}
-	return userResult, nil
+	err := collection.Find("id", id).Update(userModel)
+	if err != nil {
+		return nil, err
+	}
+	user.ID = userModel.ID
+	user.Username = userModel.Username
+	user.FirstName = userModel.FirstName
+	user.LastName = userModel.LastName
+	user.Email = userModel.Email
+	user.CPF = userModel.CPF
+	user.CreatedAt = userModel.CreatedAt
+	user.ModifiedAt = userModel.ModifiedAt
+
+	return user, nil
 }
 
 func (u UserRepositoryDatabase) FindByID(id string) (*entity.User, error) {
+	sess := *u.db.Session()
+	collection := sess.Collection("users")
+	var userModel *model.UserModel
+	err := collection.Find("id", id).One(&userModel)
+	if err != nil {
+		return nil, err
+	}
 	userResult := &entity.User{
-		ID:         id,
-		Username:   "test",
-		Password:   "123456Ada$",
-		FirstName:  "test",
-		LastName:   "test",
-		Email:      "test@mail.com",
-		CPF:        "12345678912",
-		CreatedAt:  time.Time{},
-		ModifiedAt: time.Time{},
+		ID:        userModel.ID,
+		Username:  userModel.Username,
+		FirstName: userModel.FirstName,
+		LastName:  userModel.LastName,
+		Email:     userModel.Email,
+		CPF:       userModel.CPF,
 	}
 	return userResult, nil
 }
 
 func (u UserRepositoryDatabase) FindALL() ([]*entity.User, error) {
-	usersResult := []*entity.User{
-		{
-			ID:         "1",
-			Username:   "test",
-			Password:   "123456Ada$",
-			FirstName:  "test",
-			LastName:   "test",
-			Email:      "test@email.com",
-			CPF:        "12345678912",
-			CreatedAt:  time.Time{},
-			ModifiedAt: time.Time{},
-		},
-		{
-			ID:         "2",
-			Username:   "test",
-			Password:   "123456Ada$",
-			FirstName:  "test",
-			LastName:   "test",
-			Email:      "test@email.com",
-			CPF:        "12345678912",
-			CreatedAt:  time.Time{},
-			ModifiedAt: time.Time{},
-		},
+	sess := *u.db.Session()
+	var userModels []*model.UserModel
+	err := sess.Collection("users").Find().All(&userModels)
+	if err != nil {
+		return nil, err
 	}
-	return usersResult, nil
+	var userResults []*entity.User
+	for _, userModel := range userModels {
+		userResult := &entity.User{
+			ID:        userModel.ID,
+			Username:  userModel.Username,
+			FirstName: userModel.FirstName,
+			LastName:  userModel.LastName,
+			Email:     userModel.Email,
+			CPF:       userModel.CPF,
+		}
+		userResults = append(userResults, userResult)
+	}
+	return userResults, nil
 }
 
 func (u UserRepositoryDatabase) Delete(id string) error {
-	fmt.Println("Deleting user-database with id: ", id)
+	sess := *u.db.Session()
+	collection := sess.Collection("users")
+	err := collection.Find("id", id).Delete()
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -3,8 +3,6 @@ package user_interface
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-
 	"github.com/andreis3/users-ms/src/infra/factory"
 )
 
@@ -27,29 +25,22 @@ func (u *UserRouter) UserRouter() []map[string]any {
 		{
 			"method": http.MethodGet,
 			"path":   "/users",
-			"handle": func(ctx *gin.Context) {
-				ctx.JSON(http.StatusOK, gin.H{
-					"message": "Implement method GET",
-				})
-			},
+			"handle": userController.GetAll,
+		},
+		{
+			"method": http.MethodGet,
+			"path":   "/users/:id",
+			"handle": userController.GetID,
 		},
 		{
 			"method": http.MethodPut,
 			"path":   "/users/:id",
-			"handle": func(ctx *gin.Context) {
-				ctx.JSON(http.StatusOK, gin.H{
-					"message": "Implement method PUT",
-				})
-			},
+			"handle": userController.Update,
 		},
 		{
 			"method": http.MethodDelete,
 			"path":   "/users/:id",
-			"handle": func(ctx *gin.Context) {
-				ctx.JSON(http.StatusNoContent, gin.H{
-					"message": "Implement method DELETE",
-				})
-			},
+			"handle": userController.Delete,
 		},
 	}
 }

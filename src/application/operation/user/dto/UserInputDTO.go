@@ -1,8 +1,6 @@
 package dto
 
 import (
-	"github.com/google/uuid"
-
 	"github.com/andreis3/users-ms/src/domain/entity"
 )
 
@@ -16,8 +14,7 @@ type UserInputDTO struct {
 }
 
 func (p *UserInputDTO) ParserUserEntity() (*entity.User, error) {
-	id := uuid.New().String()
-	user := entity.NewUser(id, p.Username, p.Password, p.FirstName, p.LastName, p.Email, p.CPF)
+	user := entity.NewUser(p.Username, p.Password, p.FirstName, p.LastName, p.Email, p.CPF)
 	err := user.Validate()
 	if err != nil {
 		return nil, err

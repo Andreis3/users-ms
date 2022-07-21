@@ -18,9 +18,8 @@ type User struct {
 	ModifiedAt time.Time
 }
 
-func NewUser(id, username, password, firstName, lastName, email, cpf string) *User {
+func NewUser(username, password, firstName, lastName, email, cpf string) *User {
 	user := &User{
-		ID:         id,
 		Username:   username,
 		Password:   password,
 		FirstName:  firstName,

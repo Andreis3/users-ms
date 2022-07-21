@@ -8,7 +8,7 @@ import (
 
 type IUserRepository interface {
 	Save(user *entity.User) (*entity.User, error)
-	Update(user *entity.User) (*entity.User, error)
+	Update(id string, user *entity.User) (*entity.User, error)
 	FindByID(id string) (*entity.User, error)
 	FindALL() ([]*entity.User, error)
 	Delete(id string) error

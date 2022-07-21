@@ -2,30 +2,30 @@ package operation
 
 import (
 	"github.com/andreis3/users-ms/src/application/operation/user/dto"
+	"github.com/andreis3/users-ms/src/domain/entity"
 	"github.com/andreis3/users-ms/src/domain/factory"
 	"github.com/andreis3/users-ms/src/domain/service"
 )
 
-type CreateUserOperation struct {
+type UpdateUserOperation struct {
 	repositoryFactory factory.IRepositoryFactory
 }
 
-func NewCreateUserOperation(repositoryFactory factory.IRepositoryFactory) *CreateUserOperation {
-	return &CreateUserOperation{
+func NewUpdateUserOperation(repositoryFactory factory.IRepositoryFactory) *UpdateUserOperation {
+	return &UpdateUserOperation{
 		repositoryFactory: repositoryFactory,
 	}
 }
 
-func (p *CreateUserOperation) Execute(userInput *dto.UserInputDTO) (*dto.UserOutPutDTO, error) {
+func (p *UpdateUserOperation) Execute(id string, userInput *dto.UserInputDTO) (*entity.User, error) {
 	userService := service.NewUserService(p.repositoryFactory)
-	userEntity, err := userInput.ParserUserEntity()
+	user, err := userInput.ParserUserEntity()
 	if err != nil {
 		return nil, err
 	}
-	user, err := userService.CreateUser(userEntity)
+	userResult, err := userService.UpdateUser(id, user)
 	if err != nil {
 		return nil, err
 	}
-	userOutput := dto.ParserUserEntityOutput(user)
-	return userOutput, nil
+	return userResult, nil
 }

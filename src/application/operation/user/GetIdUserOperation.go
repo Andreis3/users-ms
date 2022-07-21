@@ -6,23 +6,19 @@ import (
 	"github.com/andreis3/users-ms/src/domain/service"
 )
 
-type CreateUserOperation struct {
+type GetIdUserOperation struct {
 	repositoryFactory factory.IRepositoryFactory
 }
 
-func NewCreateUserOperation(repositoryFactory factory.IRepositoryFactory) *CreateUserOperation {
-	return &CreateUserOperation{
+func NewGetIdUserOperation(repositoryFactory factory.IRepositoryFactory) *GetIdUserOperation {
+	return &GetIdUserOperation{
 		repositoryFactory: repositoryFactory,
 	}
 }
 
-func (p *CreateUserOperation) Execute(userInput *dto.UserInputDTO) (*dto.UserOutPutDTO, error) {
+func (p *GetIdUserOperation) Execute(id string) (*dto.UserOutPutDTO, error) {
 	userService := service.NewUserService(p.repositoryFactory)
-	userEntity, err := userInput.ParserUserEntity()
-	if err != nil {
-		return nil, err
-	}
-	user, err := userService.CreateUser(userEntity)
+	user, err := userService.GetUserByID(id)
 	if err != nil {
 		return nil, err
 	}
