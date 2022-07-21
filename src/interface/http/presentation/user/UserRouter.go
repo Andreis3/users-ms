@@ -17,8 +17,8 @@ func init() {
 
 type UserRouter struct{}
 
-func (u *UserRouter) UserRouter() []map[string]interface{} {
-	return []map[string]interface{}{
+func (u *UserRouter) UserRouter() []map[string]any {
+	return []map[string]any{
 		{
 			"method": http.MethodPost,
 			"path":   "/users",
