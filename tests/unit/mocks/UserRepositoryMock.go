@@ -94,16 +94,16 @@ func (mr *MockIUserRepositoryMockRecorder) Save(arg0 interface{}) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockIUserRepository) Update(arg0 *entity.User) (*entity.User, error) {
+func (m *MockIUserRepository) Update(arg0 string, arg1 *entity.User) (*entity.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", arg0)
+	ret := m.ctrl.Call(m, "Update", arg0, arg1)
 	ret0, _ := ret[0].(*entity.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockIUserRepositoryMockRecorder) Update(arg0 interface{}) *gomock.Call {
+func (mr *MockIUserRepositoryMockRecorder) Update(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockIUserRepository)(nil).Update), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockIUserRepository)(nil).Update), arg0, arg1)
 }
