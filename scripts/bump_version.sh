@@ -33,6 +33,7 @@
 #fi
 
 function confirm() {
+  # shellcheck disable=SC2145
   read -r -p "$@ [Y/n]: " confirm
 
   case "$confirm" in

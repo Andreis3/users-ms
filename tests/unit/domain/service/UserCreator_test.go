@@ -23,8 +23,8 @@ func TestUserCreator(t *testing.T) {
 
 var _ = Describe("DOMAIN :: SERVICE :: USERCREATOR", func() {
 	var userCreator *service.UserCreator
-	mockRepositoryFactory := mocks.NewMockRepositoryFactory(crtl)
-	mockUserRepository := mocks.NewMockUserRepository(crtl)
+	mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+	mockUserRepository := mocks.NewMockIUserRepository(crtl)
 	user := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
@@ -38,14 +38,14 @@ var _ = Describe("DOMAIN :: SERVICE :: USERCREATOR", func() {
 		BeforeEach(func() {
 			mockUserRepository.EXPECT().Save(gomock.Any()).Return(user, nil)
 			mockRepositoryFactory.EXPECT().CreateUserRepository().Return(mockUserRepository)
-			userCreator = service.NewUserCreator(mockRepositoryFactory)
+			userCreator = service.NewUserService(mockRepositoryFactory)
 		})
 		AfterEach(func() {
 			defer crtl.Finish()
 		})
 
 		It("Should not return error", func() {
-			userResult, err := userCreator.Create(user)
+			userResult, err := userCreator.CreateUser(user)
 			Expect(err).To(BeNil())
 			Expect(userResult).To(Equal(user))
 		})
@@ -56,13 +56,13 @@ var _ = Describe("DOMAIN :: SERVICE :: USERCREATOR", func() {
 			err := errors.New("username is required")
 			mockUserRepository.EXPECT().Save(gomock.Any()).Return(nil, err)
 			mockRepositoryFactory.EXPECT().CreateUserRepository().Return(mockUserRepository)
-			userCreator = service.NewUserCreator(mockRepositoryFactory)
+			userCreator = service.NewUserService(mockRepositoryFactory)
 		})
 		AfterEach(func() {
 			defer crtl.Finish()
 		})
 		It("Should return error when username is empty", func() {
-			userResult, err := userCreator.Create(user)
+			userResult, err := userCreator.CreateUser(user)
 			Expect(err).To(HaveOccurred())
 			Expect(err.Error()).To(Equal("username is required"))
 			Expect(userResult).To(BeNil())

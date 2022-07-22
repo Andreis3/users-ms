@@ -1,17 +1,21 @@
 package main
 
 import (
-	memoryRepository "github.com/andreis3/users-ms/src/infra/factory"
-	httpConfig "github.com/andreis3/users-ms/src/infra/http"
-	"github.com/andreis3/users-ms/src/infra/middleware/auth"
+	"github.com/gin-gonic/gin"
+
+	_interface "github.com/andreis3/users-ms/src/interface"
+	"github.com/andreis3/users-ms/src/interface/http/presentation"
+	userInterface "github.com/andreis3/users-ms/src/interface/http/presentation/user"
 )
 
-var memoryRepositoryFactory memoryRepository.MemoryRepositoryFactory
+var router *_interface.Router
+var userRouter *userInterface.UserRouter
+var registerRouter *presentation.RouterRegister
 
 func main() {
-	http := httpConfig.NewGinHttp()
-	middleware := auth.NewAuthMiddleware("12345")
-	routes := httpConfig.NewRouterConfig(http, &memoryRepositoryFactory, middleware)
-	routes.Build()
-	http.Listen("8080")
+	app := gin.Default()
+	registerRouter = presentation.NewRouterRegister()
+	router = _interface.NewRouter(app, registerRouter, userRouter)
+	server := _interface.NewServer(app, router)
+	server.Start()
 }

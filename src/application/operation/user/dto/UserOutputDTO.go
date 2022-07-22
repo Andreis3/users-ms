@@ -1,4 +1,4 @@
-package place_user
+package dto
 
 import (
 	"time"
@@ -6,7 +6,7 @@ import (
 	"github.com/andreis3/users-ms/src/domain/entity"
 )
 
-type PlaceUserOutPut struct {
+type UserOutPutDTO struct {
 	ID         string    `json:"id"`
 	Username   string    `json:"user_name"`
 	FirstName  string    `json:"first_name"`
@@ -17,8 +17,8 @@ type PlaceUserOutPut struct {
 	ModifiedAt time.Time `json:"modified_at"`
 }
 
-func ParserUserEntityOutput(userEntity *entity.User) *PlaceUserOutPut {
-	user := &PlaceUserOutPut{
+func ParserUserEntityOutput(userEntity *entity.User) *UserOutPutDTO {
+	user := &UserOutPutDTO{
 		ID:         userEntity.ID,
 		Username:   userEntity.Username,
 		FirstName:  userEntity.FirstName,
