@@ -2,23 +2,21 @@ package operation
 
 import (
 	"github.com/andreis3/users-ms/src/application/operation/user/dto"
-	"github.com/andreis3/users-ms/src/domain/factory"
 	"github.com/andreis3/users-ms/src/domain/service"
 )
 
 type GetAllUserOperation struct {
-	repositoryFactory factory.IRepositoryFactory
+	userService service.IUserService
 }
 
-func NewGetAllUserOperation(repositoryFactory factory.IRepositoryFactory) *GetAllUserOperation {
+func NewGetAllUserOperation(userService service.IUserService) *GetAllUserOperation {
 	return &GetAllUserOperation{
-		repositoryFactory: repositoryFactory,
+		userService: userService,
 	}
 }
 
 func (p *GetAllUserOperation) Execute() ([]*dto.UserOutPutDTO, error) {
-	userService := service.NewUserService(p.repositoryFactory)
-	users, err := userService.GetAllUsers()
+	users, err := p.userService.GetAllUsers()
 	if err != nil {
 		return nil, err
 	}

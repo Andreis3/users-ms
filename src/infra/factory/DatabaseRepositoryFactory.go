@@ -8,6 +8,10 @@ import (
 
 type DatabaseRepositoryFactory struct{}
 
+func NewDatabaseRepositoryFactory() *DatabaseRepositoryFactory {
+	return &DatabaseRepositoryFactory{}
+}
+
 func (f *DatabaseRepositoryFactory) CreateUserRepository() repository.IUserRepository {
 	return database.NewUserRepositoryDatabase(cockroach.GetInstance())
 }

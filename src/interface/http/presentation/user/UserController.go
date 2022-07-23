@@ -7,23 +7,36 @@ import (
 
 	operation "github.com/andreis3/users-ms/src/application/operation/user"
 	"github.com/andreis3/users-ms/src/application/operation/user/dto"
-	"github.com/andreis3/users-ms/src/domain/factory"
 )
 
 type UserController struct {
-	repositoryFactory factory.IRepositoryFactory
+	createUserOperation operation.ICreateUserOperation
+	getAllUserOperation operation.IGetAllUserOperation
+	getIdUserOperation  operation.IGetIdUserOperation
+	updateUserOperation operation.IUpdateUserOperation
+	deleteUserOperation operation.IDeleteUserOperation
 }
 
-func NewUserController(repositoryFactory factory.IRepositoryFactory) *UserController {
+func NewUserController(
+	createUserOperation operation.ICreateUserOperation,
+	getAllUserOperation operation.IGetAllUserOperation,
+	getIdUserOperation operation.IGetIdUserOperation,
+	updateUserOperation operation.IUpdateUserOperation,
+	deleteUserOperation operation.IDeleteUserOperation,
+) *UserController {
 	return &UserController{
-		repositoryFactory: repositoryFactory,
+		createUserOperation: createUserOperation,
+		getAllUserOperation: getAllUserOperation,
+		getIdUserOperation:  getIdUserOperation,
+		updateUserOperation: updateUserOperation,
+		deleteUserOperation: deleteUserOperation,
 	}
 }
 
 func (u *UserController) Create(ctx *gin.Context) {
 	var userInput dto.UserInputDTO
 	ctx.ShouldBindJSON(&userInput)
-	userOutput, err := operation.NewCreateUserOperation(u.repositoryFactory).Execute(&userInput)
+	userOutput, err := u.createUserOperation.Execute(&userInput)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
@@ -35,7 +48,7 @@ func (u *UserController) Create(ctx *gin.Context) {
 
 func (u *UserController) GetID(ctx *gin.Context) {
 	id := ctx.Param("id")
-	userOutput, err := operation.NewGetIdUserOperation(u.repositoryFactory).Execute(id)
+	userOutput, err := u.getIdUserOperation.Execute(id)
 	if err != nil && userOutput == nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
 			"message": "User not found",
@@ -46,7 +59,7 @@ func (u *UserController) GetID(ctx *gin.Context) {
 }
 
 func (u *UserController) GetAll(ctx *gin.Context) {
-	usersOutput, err := operation.NewGetAllUserOperation(u.repositoryFactory).Execute()
+	usersOutput, err := u.getAllUserOperation.Execute()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": err.Error(),
@@ -60,7 +73,7 @@ func (u *UserController) Update(ctx *gin.Context) {
 	id := ctx.Param("id")
 	var userInput dto.UserInputDTO
 	ctx.ShouldBindJSON(&userInput)
-	userOutput, err := operation.NewUpdateUserOperation(u.repositoryFactory).Execute(id, &userInput)
+	userOutput, err := u.updateUserOperation.Execute(id, &userInput)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
@@ -72,7 +85,7 @@ func (u *UserController) Update(ctx *gin.Context) {
 
 func (u *UserController) Delete(ctx *gin.Context) {
 	id := ctx.Param("id")
-	err := operation.NewDeleteUserOperation(u.repositoryFactory).Execute(id)
+	err := u.deleteUserOperation.Execute(id)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
