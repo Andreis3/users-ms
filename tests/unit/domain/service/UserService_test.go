@@ -1,3 +1,6 @@
+//go:build unit
+// +build unit
+
 package service
 
 import (
@@ -21,10 +24,7 @@ func Test_UserService(t *testing.T) {
 	RunSpecs(t, "Domain :: Service :: UserService Suite")
 }
 
-var _ = Describe("DOMAIN :: SERVICE :: CreateUser", func() {
-	var userCreator *service.UserService
-	mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
-	mockUserRepository := mocks.NewMockIUserRepository(crtl)
+var _ = Describe("DOMAIN :: SERVICE :: CreateUser", Ordered, func() {
 	user := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
@@ -35,6 +35,9 @@ var _ = Describe("DOMAIN :: SERVICE :: CreateUser", func() {
 	}
 
 	When("All fields are valid", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			mockUserRepository.EXPECT().Save(gomock.Any()).Return(user, nil)
 			mockRepositoryFactory.EXPECT().CreateUserRepository().Return(mockUserRepository)
@@ -52,6 +55,9 @@ var _ = Describe("DOMAIN :: SERVICE :: CreateUser", func() {
 	})
 
 	When("Return a error", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			err := errors.New("username is required")
 			mockUserRepository.EXPECT().Save(gomock.Any()).Return(nil, err)
@@ -70,11 +76,7 @@ var _ = Describe("DOMAIN :: SERVICE :: CreateUser", func() {
 	})
 })
 
-var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", func() {
-	var userCreator *service.UserService
-	mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
-	mockUserRepository := mocks.NewMockIUserRepository(crtl)
-
+var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", Ordered, func() {
 	user := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
@@ -85,6 +87,9 @@ var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", func() {
 	}
 
 	When("User exists", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			mockUserRepository.EXPECT().FindByID(gomock.Any()).Return(user, nil)
 			mockRepositoryFactory.EXPECT().CreateUserRepository().Return(mockUserRepository)
@@ -103,6 +108,9 @@ var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", func() {
 	})
 
 	When("User does not exist", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			err := errors.New("user not found")
 			mockUserRepository.EXPECT().FindByID(gomock.Any()).Return(nil, err)
@@ -121,9 +129,12 @@ var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", func() {
 	})
 
 	When("ID is empty", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			err := errors.New("id is empty")
-			mockUserRepository.EXPECT().FindByID("").Return(nil, err)
+			mockUserRepository.EXPECT().FindByID(gomock.Any()).Return(nil, err)
 			mockRepositoryFactory.EXPECT().CreateUserRepository().Return(mockUserRepository)
 			userCreator = service.NewUserService(mockRepositoryFactory)
 		})
@@ -140,11 +151,7 @@ var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", func() {
 	})
 })
 
-var _ = Describe("DOMAIN :: SERVICE :: GetAllUsers", func() {
-	var userCreator *service.UserService
-	mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
-	mockUserRepository := mocks.NewMockIUserRepository(crtl)
-
+var _ = Describe("DOMAIN :: SERVICE :: GetAllUsers", Ordered, func() {
 	users := []*entity.User{
 		{
 			ID:        "any_id",
@@ -165,6 +172,9 @@ var _ = Describe("DOMAIN :: SERVICE :: GetAllUsers", func() {
 	}
 
 	When("Users exists", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			mockUserRepository.EXPECT().FindALL().Return(users, nil)
 			mockRepositoryFactory.EXPECT().CreateUserRepository().Return(mockUserRepository)
@@ -182,6 +192,9 @@ var _ = Describe("DOMAIN :: SERVICE :: GetAllUsers", func() {
 	})
 
 	When("Users does not exist", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		var user []*entity.User
 		BeforeEach(func() {
 			mockUserRepository.EXPECT().FindALL().Return(user, nil)
@@ -200,11 +213,7 @@ var _ = Describe("DOMAIN :: SERVICE :: GetAllUsers", func() {
 	})
 })
 
-var _ = Describe("DOMAIN :: SERVICE :: UpdateUser", func() {
-	var userCreator *service.UserService
-	mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
-	mockUserRepository := mocks.NewMockIUserRepository(crtl)
-
+var _ = Describe("DOMAIN :: SERVICE :: UpdateUser", Ordered, func() {
 	user := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
@@ -215,6 +224,9 @@ var _ = Describe("DOMAIN :: SERVICE :: UpdateUser", func() {
 	}
 
 	When("User exists", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			mockUserRepository.EXPECT().Update(gomock.Any(), user).Return(user, nil)
 			mockRepositoryFactory.EXPECT().CreateUserRepository().Return(mockUserRepository)
@@ -231,6 +243,9 @@ var _ = Describe("DOMAIN :: SERVICE :: UpdateUser", func() {
 		})
 	})
 	When("User does not exist", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			err := errors.New("user not found")
 			mockUserRepository.EXPECT().Update(gomock.Any(), gomock.Any()).Return(nil, err)
@@ -249,12 +264,11 @@ var _ = Describe("DOMAIN :: SERVICE :: UpdateUser", func() {
 	})
 })
 
-var _ = Describe("DOMAIN :: SERVICE :: DeleteUser", func() {
-	var userCreator *service.UserService
-	mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
-	mockUserRepository := mocks.NewMockIUserRepository(crtl)
-
+var _ = Describe("DOMAIN :: SERVICE :: DeleteUser", Ordered, func() {
 	When("User exists", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			mockUserRepository.EXPECT().Delete(gomock.Any()).Return(nil)
 			mockRepositoryFactory.EXPECT().CreateUserRepository().Return(mockUserRepository)
@@ -269,6 +283,9 @@ var _ = Describe("DOMAIN :: SERVICE :: DeleteUser", func() {
 		})
 	})
 	When("User does not exist", func() {
+		var userCreator *service.UserService
+		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)
+		mockUserRepository := mocks.NewMockIUserRepository(crtl)
 		BeforeEach(func() {
 			err := errors.New("user not found")
 			mockUserRepository.EXPECT().Delete(gomock.Any()).Return(err)
