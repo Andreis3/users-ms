@@ -5,24 +5,24 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	operation "github.com/andreis3/users-ms/src/application/operation/user"
 	"github.com/andreis3/users-ms/src/application/operation/user/dto"
+	"github.com/andreis3/users-ms/src/application/operation/user/interface"
 )
 
 type UserController struct {
-	createUserOperation operation.ICreateUserOperation
-	getAllUserOperation operation.IGetAllUserOperation
-	getIdUserOperation  operation.IGetIdUserOperation
-	updateUserOperation operation.IUpdateUserOperation
-	deleteUserOperation operation.IDeleteUserOperation
+	createUserOperation operation_interface_user.ICreateUserOperation
+	getAllUserOperation operation_interface_user.IGetAllUserOperation
+	getIdUserOperation  operation_interface_user.IGetIdUserOperation
+	updateUserOperation operation_interface_user.IUpdateUserOperation
+	deleteUserOperation operation_interface_user.IDeleteUserOperation
 }
 
 func NewUserController(
-	createUserOperation operation.ICreateUserOperation,
-	getAllUserOperation operation.IGetAllUserOperation,
-	getIdUserOperation operation.IGetIdUserOperation,
-	updateUserOperation operation.IUpdateUserOperation,
-	deleteUserOperation operation.IDeleteUserOperation,
+	createUserOperation operation_interface_user.ICreateUserOperation,
+	getAllUserOperation operation_interface_user.IGetAllUserOperation,
+	getIdUserOperation operation_interface_user.IGetIdUserOperation,
+	updateUserOperation operation_interface_user.IUpdateUserOperation,
+	deleteUserOperation operation_interface_user.IDeleteUserOperation,
 ) *UserController {
 	return &UserController{
 		createUserOperation: createUserOperation,
