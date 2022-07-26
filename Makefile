@@ -2,7 +2,7 @@ unit-tests:
 	ginkgo -r --race --tags=unit
 
 unit-tests-verbose:
-	ginkgo -r -v -p --race --randomize-all --randomize-suites --tags=unit
+	ginkgo -r -v --race --tags=unit
 
 unit-tests-report:
 	mkdir -p "coverage" \
