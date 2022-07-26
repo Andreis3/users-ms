@@ -2,9 +2,10 @@ name: users-ms-ci
 
 on:
   push:
-    branches: [ feat/*, fix/*, hotfix/*, chore/* ]
+    branches: [ feat/*, fix/*, hotfix/*, chore/*, test/* ]
   pull_request:
     branches: [ develop, preprod, master ]
+
 
 jobs:
 
