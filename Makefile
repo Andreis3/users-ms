@@ -1,5 +1,5 @@
 unit-tests:
-	ginkgo -r --race --randomize-all --randomize-suites --tags=unit
+	ginkgo -r --race --tags=unit
 
 unit-tests-verbose:
 	ginkgo -r -v -p --race --randomize-all --randomize-suites --tags=unit

@@ -24,7 +24,7 @@ func Test_UserService(t *testing.T) {
 	RunSpecs(t, "Domain :: Service :: UserService Suite")
 }
 
-var _ = Describe("DOMAIN :: SERVICE :: CreateUser", Ordered, func() {
+var _ = Describe("DOMAIN :: SERVICE :: CreateUser", func() {
 	user := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
@@ -76,7 +76,7 @@ var _ = Describe("DOMAIN :: SERVICE :: CreateUser", Ordered, func() {
 	})
 })
 
-var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", Ordered, func() {
+var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", func() {
 	user := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
@@ -151,7 +151,7 @@ var _ = Describe("DOMAIN :: SERVICE :: GetUserByID", Ordered, func() {
 	})
 })
 
-var _ = Describe("DOMAIN :: SERVICE :: GetAllUsers", Ordered, func() {
+var _ = Describe("DOMAIN :: SERVICE :: GetAllUsers", func() {
 	users := []*entity.User{
 		{
 			ID:        "any_id",
@@ -213,7 +213,7 @@ var _ = Describe("DOMAIN :: SERVICE :: GetAllUsers", Ordered, func() {
 	})
 })
 
-var _ = Describe("DOMAIN :: SERVICE :: UpdateUser", Ordered, func() {
+var _ = Describe("DOMAIN :: SERVICE :: UpdateUser", func() {
 	user := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
@@ -264,7 +264,7 @@ var _ = Describe("DOMAIN :: SERVICE :: UpdateUser", Ordered, func() {
 	})
 })
 
-var _ = Describe("DOMAIN :: SERVICE :: DeleteUser", Ordered, func() {
+var _ = Describe("DOMAIN :: SERVICE :: DeleteUser", func() {
 	When("User exists", func() {
 		var userCreator *service.UserService
 		mockRepositoryFactory := mocks.NewMockIRepositoryFactory(crtl)

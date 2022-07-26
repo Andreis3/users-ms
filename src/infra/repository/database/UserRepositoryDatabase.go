@@ -53,6 +53,7 @@ func (u UserRepositoryDatabase) Update(id string, user *entity.User) (*entity.Us
 		LastName:   user.LastName,
 		Email:      user.Email,
 		CPF:        user.CPF,
+		CreatedAt:  user.CreatedAt,
 		ModifiedAt: time.Now(),
 	}
 	err := collection.Find("id", id).Update(userModel)
@@ -80,12 +81,14 @@ func (u UserRepositoryDatabase) FindByID(id string) (*entity.User, error) {
 		return nil, err
 	}
 	userResult := &entity.User{
-		ID:        userModel.ID,
-		Username:  userModel.Username,
-		FirstName: userModel.FirstName,
-		LastName:  userModel.LastName,
-		Email:     userModel.Email,
-		CPF:       userModel.CPF,
+		ID:         userModel.ID,
+		Username:   userModel.Username,
+		FirstName:  userModel.FirstName,
+		LastName:   userModel.LastName,
+		Email:      userModel.Email,
+		CPF:        userModel.CPF,
+		CreatedAt:  userModel.CreatedAt,
+		ModifiedAt: userModel.ModifiedAt,
 	}
 	return userResult, nil
 }
@@ -100,12 +103,14 @@ func (u UserRepositoryDatabase) FindALL() ([]*entity.User, error) {
 	var userResults []*entity.User
 	for _, userModel := range userModels {
 		userResult := &entity.User{
-			ID:        userModel.ID,
-			Username:  userModel.Username,
-			FirstName: userModel.FirstName,
-			LastName:  userModel.LastName,
-			Email:     userModel.Email,
-			CPF:       userModel.CPF,
+			ID:         userModel.ID,
+			Username:   userModel.Username,
+			FirstName:  userModel.FirstName,
+			LastName:   userModel.LastName,
+			Email:      userModel.Email,
+			CPF:        userModel.CPF,
+			CreatedAt:  userModel.CreatedAt,
+			ModifiedAt: userModel.ModifiedAt,
 		}
 		userResults = append(userResults, userResult)
 	}

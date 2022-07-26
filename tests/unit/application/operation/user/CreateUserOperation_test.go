@@ -1,7 +1,7 @@
 //go:build unit
 // +build unit
 
-package operation_user_test
+package operation_user
 
 import (
 	"errors"
@@ -16,7 +16,7 @@ import (
 	"github.com/andreis3/users-ms/tests/unit/mocks"
 )
 
-var _ = Describe("OPERATION :: USER :: CreateUserOperation", Ordered, func() {
+var _ = Describe("OPERATION :: USER :: CreateUserOperation", func() {
 	When("All fields are valid", func() {
 		inputUserDTO := &dto.UserInputDTO{
 			Username:  "test_username",

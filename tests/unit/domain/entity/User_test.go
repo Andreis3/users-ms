@@ -17,7 +17,7 @@ func TestUserEntity(t *testing.T) {
 	RunSpecs(t, "Domain :: Entity :: User Suite")
 }
 
-var _ = Describe("DOMAIN :: ENTITY :: USER", Ordered, func() {
+var _ = Describe("DOMAIN :: ENTITY :: USER", func() {
 	var user *entity.User
 	var err error
 	BeforeEach(func() {

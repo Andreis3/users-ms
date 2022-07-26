@@ -4,7 +4,6 @@
 package operation_user
 
 import (
-	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
@@ -13,7 +12,7 @@ import (
 	"github.com/andreis3/users-ms/tests/unit/mocks"
 )
 
-var _ = Describe("APPLICATION :: OPERATION :: USER :: GetIdUserOperation", Ordered, func() {
+var _ = Describe("APPLICATION :: OPERATION :: USER :: GetAllUserOperation", Ordered, func() {
 	entityUser := &entity.User{
 		ID:        "any_id",
 		Username:  "test_username",
@@ -25,13 +24,13 @@ var _ = Describe("APPLICATION :: OPERATION :: USER :: GetIdUserOperation", Order
 	}
 
 	When("All fields are valid", func() {
-		var getIdUserOperation *operation.GetIdUserOperation
+		var getAllUserOperation *operation.GetAllUserOperation
 		var mockUserService *mocks.MockIUserService
 
 		BeforeEach(func() {
 			mockUserService = mocks.NewMockIUserService(ctrl)
-			mockUserService.EXPECT().GetUserByID(gomock.Any()).Return(entityUser, nil)
-			getIdUserOperation = operation.NewGetIdUserOperation(mockUserService)
+			mockUserService.EXPECT().GetAllUsers().Return([]*entity.User{entityUser}, nil)
+			getAllUserOperation = operation.NewGetAllUserOperation(mockUserService)
 		})
 
 		AfterEach(func() {
@@ -39,8 +38,9 @@ var _ = Describe("APPLICATION :: OPERATION :: USER :: GetIdUserOperation", Order
 		})
 
 		It("Should not return error", func() {
-			_, err := getIdUserOperation.Execute("any_id")
+			resultUser, err := getAllUserOperation.Execute()
 			Expect(err).To(BeNil())
+			Expect(resultUser).To(HaveLen(1))
 		})
 	})
 })
