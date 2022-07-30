@@ -12,9 +12,9 @@ import (
 	"github.com/andreis3/users-ms/src/domain/entity"
 )
 
-func TestUserEntity(t *testing.T) {
+func Test_UserEntity(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Domain :: Entity :: User Suite")
+	RunSpecs(t, "DOMAIN :: ENTITY :: USER")
 }
 
 var _ = Describe("DOMAIN :: ENTITY :: USER", func() {

@@ -1,4 +1,4 @@
-package operation_user
+package user_interfaces
 
 import (
 	"testing"
@@ -11,7 +11,7 @@ import (
 
 var ctrl *gomock.Controller
 
-func Test_UserOperation_Suite(t *testing.T) {
+func Test_UserInterface_Suite(t *testing.T) {
 	ctrl = gomock.NewController(t)
 	// fetch the current config
 	suiteConfig, reporterConfig := GinkgoConfiguration()
@@ -19,5 +19,6 @@ func Test_UserOperation_Suite(t *testing.T) {
 	suiteConfig.SkipStrings = []string{"NEVER-RUN"}
 	reporterConfig.FullTrace = true
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "OPERATION :: TESTS :: USER :: SUITE", suiteConfig, reporterConfig)
+	RunSpecs(t, "INTERFACE :: HTTP :: PRESENTATION :: USER :: CONTROLLER : ROUTER", suiteConfig, reporterConfig)
+	//RunSpecs(t, "INTERFACE :: HTTP :: PRESENTATION :: USER :: ROUTER", suiteConfig, reporterConfig)
 }

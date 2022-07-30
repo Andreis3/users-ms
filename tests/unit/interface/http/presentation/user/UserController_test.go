@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"testing"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -20,14 +19,6 @@ import (
 	user_interface "github.com/andreis3/users-ms/src/interface/http/presentation/user"
 	"github.com/andreis3/users-ms/tests/unit/mocks"
 )
-
-var ctrl *gomock.Controller
-
-func Test_UserController(t *testing.T) {
-	ctrl = gomock.NewController(t)
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "INTERFACE :: HTTP :: PRESENTATION :: USER :: USER_CONTROLLER")
-}
 
 var _ = Describe("Create", func() {
 	gin.SetMode(gin.TestMode)

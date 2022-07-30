@@ -21,7 +21,7 @@ var crtl *gomock.Controller
 func Test_UserService(t *testing.T) {
 	crtl = gomock.NewController(t)
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Domain :: Service :: UserService Suite")
+	RunSpecs(t, "DOMAIN :: SERVICE :: USER_SERVICE")
 }
 
 var _ = Describe("DOMAIN :: SERVICE :: CreateUser", func() {
